@@ -1,0 +1,25 @@
+<?php
+require 'mysql_connect.php';
+$itemid=rand(1,900);
+$uid=rand(1,5000);
+$sql="select * from door";
+$stmt=$mysqli->stmt_init();
+$stmt=$mysqli->prepare($sql);
+//$stmt->bind_param("s",$seek);
+$stmt->execute();
+$result=$stmt->get_result();
+ 
+
+$i=0;
+while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+ 
+$users[$i]=$row;
+$i++;
+}
+echo json_encode(array('dataList'=>$users));
+
+  
+mysqli_free_result($result);  
+//ÊÍ·Å½á¹û  
+
+?>
