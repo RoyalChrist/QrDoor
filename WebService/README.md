@@ -1,6 +1,6 @@
 # QrDoor
 integrated solution of entrance guard system
 
-Logic processing such as user login,user right judgment...
+Logic process such as user login,user right judgment...
 
 PHP
