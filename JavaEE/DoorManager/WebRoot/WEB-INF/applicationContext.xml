@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:mysql://192.168.19.49:3306/door"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="roots704"></property>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean>
+
+	<!-- 事务 -->
+	<bean id="transcation"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<!-- 通知 -->
+	<tx:advice id="hibernateAdvice" transaction-manager="transcation">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- AOP -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.yan.dao.imp.*.*(..))"
+			id="daoAop" />
+		<aop:advisor advice-ref="hibernateAdvice" pointcut-ref="daoAop" />
+	</aop:config>
+	
+	<!-- DAO BEGIN -->
+	<bean id="RelationshipDAO" class="com.yan.dao.imp.RelationshipDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="QrcodeDAO" class="com.yan.dao.imp.QrcodeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="UserDAO" class="com.yan.dao.imp.UserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="DoorDAO" class="com.yan.dao.imp.DoorDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="LogDAO" class="com.yan.dao.imp.LogDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdminDAO" class="com.yan.dao.imp.AdminDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<!-- DAO END -->
+	<!--SERVICE BEGIN -->
+	<bean id="AdminService" class="com.yan.service.imp.AdminService">
+		<property name="dao">
+			<ref bean="AdminDAO" />
+		</property>
+	</bean>
+	<bean id="UserService" class="com.yan.service.imp.UserService">
+		<property name="dao">
+			<ref bean="UserDAO" />
+		</property>
+	</bean>
+	<bean id="DoorService" class="com.yan.service.imp.DoorService">
+		<property name="dao">
+			<ref bean="DoorDAO" />
+		</property>
+	</bean>
+	<bean id="LogService" class="com.yan.service.imp.LogService">
+		<property name="dao">
+			<ref bean="LogDAO" />
+		</property>
+	</bean>
+	<bean id="QrcodeService" class="com.yan.service.imp.QrcodeService">
+		<property name="dao">
+			<ref bean="QrcodeDAO" />
+		</property>
+	</bean>
+	<bean id="RelationshipService" class="com.yan.service.imp.RelationshipService">
+		<property name="dao">
+			<ref bean="RelationshipDAO" />
+		</property>
+	</bean>
+	<!--SERVICE END -->
+	<!-- ACTION BEGIN -->
+	<bean id="AdminAction" class="com.yan.action.AdminAction" scope="prototype">
+		<property name="service">
+			<ref bean="AdminService"/>
+		</property>
+	</bean>
+	<bean id="UserAction" class="com.yan.action.UserAction" scope="prototype">
+		<property name="service">
+			<ref bean="UserService"/>
+		</property>
+	</bean>
+	<bean id="DoorAction" class="com.yan.action.DoorAction" scope="prototype">
+		<property name="service">
+			<ref bean="DoorService"/>
+		</property>
+	</bean>
+	<bean id="LogAction" class="com.yan.action.LogAction" scope="prototype">
+		<property name="service">
+			<ref bean="LogService"/>
+		</property>
+	</bean>
+	<bean id="QrcodeAction" class="com.yan.action.QrcodeAction" scope="prototype">
+		<property name="service">
+			<ref bean="QrcodeService"/>
+		</property>
+	</bean>
+	<bean id="RelationshipAction" class="com.yan.action.RelationshipAction" scope="prototype">
+		<property name="service">
+			<ref bean="RelationshipService"/>
+		</property>
+	</bean>
+	<!-- ACTION END -->
+</beans>

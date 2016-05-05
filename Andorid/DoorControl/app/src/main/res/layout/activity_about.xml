@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/ic"
+        layout="@layout/app_bar_about"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp">
+
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/sju"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="三江学院"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sju"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="项目成员：严汉轩 王晓燕 钱铭铭 曹鹏飞"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="本系统是基于移动互联网与智能手机应用的互联的无卡门禁系统。具有使用快捷、便于管理、制造成本低、适合普及等特点。只需一部手机，就能彻底摆脱忘带或弄丢钥匙、门禁卡等烦恼。"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

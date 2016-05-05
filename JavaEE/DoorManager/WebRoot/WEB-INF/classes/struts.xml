@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 编码 -->
+	<constant name="struts.custom.i18n.encoding" value="UTF-8"></constant>
+	<!-- 去掉缓冲 -->
+	<constant name="struts.serve.static.browserCache" value="false"></constant>
+	<!-- 重新加载 struts.xml -->
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<!-- spring 托管 -->
+	<constant name="struts.objectFactory" value="spring"></constant>
+
+	<package name="back" extends="json-default" namespace="/">
+		<interceptors>
+			<interceptor name="adminInterceptor" class="com.yan.utils.AdminInterceptor"></interceptor>
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="adminInterceptor"/>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mydefault"/>
+		<global-results>
+			<result name="login">/login.html</result>
+		</global-results>
+
+		<!-- admin -->
+		<action name="admin_*" class="AdminAction" method="{1}">
+			<result name="loginout">/login.html</result>
+			<result name="success">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+			
+		</action>
+		<!-- 临时 action -->
+		<action name="temp">
+			<result>/index.jsp</result>
+		</action>
+		<!-- user -->
+			<action name="user_*" class="UserAction" method="{1}">
+				<result name="findall" type="json">
+					<param name="includeProperties">
+						rows\[\d+\]\.id,
+						rows\[\d+\]\.loginName,
+						rows\[\d+\]\.realName,
+						rows\[\d+\]\.mobilephone,
+						rows\[\d+\]\.password,
+						rows\[\d+\]\.imei,
+						total
+					</param>
+				</result>
+				<result name="findbyid">/user/update.jsp</result>
+				<result name="delete">/user/list.jsp</result>
+				<result name="save">/user/list.jsp</result>
+				<result name="update">/user/list.jsp</result>
+			</action>
+			<!-- door -->
+		<action name="door_*" class="DoorAction" method="{1}">
+			<result name="findall" type="json">
+				<param name="includeProperties">
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.doorNumber,
+					rows\[\d+\]\.openCode,
+					rows\[\d+\]\.nodeNumber,
+					rows\[\d+\]\.ip,
+					rows\[\d+\]\.port,
+					rows\[\d+\]\.info,
+					total
+				</param>
+			</result>
+			<result name="findbyid">/door/update.jsp</result>
+			<result name="save">/door/list.jsp</result>
+			<result name="delete">/door/list.jsp</result>
+			<result name="update">/door/list.jsp</result>
+		</action>
+		<!-- log -->
+		<action name="log_*" class="LogAction" method="{1}">
+			<result name="findall" type="json">
+				<param name="includeProperties">
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.doorNumber,
+					rows\[\d+\]\.loginName,
+					rows\[\d+\]\.realName,
+					rows\[\d+\]\.record,
+					rows\[\d+\]\.time,
+					total
+				</param>
+			</result>
+		</action>
+		<!-- qrcode -->
+		<action name="qrcode_*" class="QrcodeAction" method="{1}">
+			<result name="findall" type="json">
+				<param name="includeProperties">
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.door\.doorNumber,
+					rows\[\d+\]\.code,
+					rows\[\d+\]\.randnumber,
+					rows\[\d+\]\.createTime,
+					rows\[\d+\]\.expTime,
+					rows\[\d+\]\.isUsed,
+					rows\[\d+\]\.userScan,
+					total
+				</param>
+			</result>
+			<result name="findbyid">/qrcode/update.jsp</result>
+			<result name="save">/qrcode/list.jsp</result>
+			<result name="delete">/qrcode/list.jsp</result>
+			<result name="update">/qrcode/list.jsp</result>
+		</action>
+		<!-- relationship -->
+		<action name="relationship_*" class="RelationshipAction" method="{1}">
+			<result name="findall" type="json">
+				<param name="includeProperties">
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.door\.doorNumber,
+					rows\[\d+\]\.user\.loginName,
+					rows\[\d+\]\.info,
+					total
+				</param>
+			</result>
+			<result name="findbyid">/relationship/update.jsp</result>
+			<result name="save">/relationship/list.jsp</result>
+			<result name="delete">/relationship/list.jsp</result>
+			<result name="update">/relationship/list.jsp</result>
+		</action>
+	</package>
+</struts>    
